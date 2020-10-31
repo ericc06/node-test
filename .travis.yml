@@ -1,0 +1,7 @@
+sudo: required
+services:
+    - docker
+
+script:
+    - docker build -t ericc06/node .
+    - docker images ericc06/node
