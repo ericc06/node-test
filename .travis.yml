@@ -5,3 +5,12 @@ services:
 script:
     - docker build -t ericc06/node .
     - docker images ericc06/node
+
+before_deploy:
+    - docker login -u DOCKER_USERNAME -p DOCKER_PASSWORD
+
+deploy:
+    provider: script
+    script: docker push eric06/testnode
+    on:
+        branch: main
