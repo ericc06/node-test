@@ -1,16 +1,20 @@
+DOCKER_IMAGE_NAME=testnode
+
 sudo: required
 services:
     - docker
 
 script:
-    - docker build -t ericc06/node .
-    - docker images ericc06/node
+    - docker build -t ericc06/$(DOCKER_IMAGE_NAME) .
+    - docker images ericc06/$(DOCKER_IMAGE_NAME)
 
 before_deploy:
-    - echo "$DOCKER_PASSWORD2" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "$(DOCKER_PASSWORD)" | docker login -u "$(DOCKER_USERNAME)" --password-stdin
 
 deploy:
     provider: script
-    script: docker push eric06/testnode
+    script:
+        - docker tag $(DOCKER_IMAGE_NAME) eric06/$(DOCKER_IMAGE_NAME):latest
+        - docker push eric06/$(DOCKER_IMAGE_NAME):latest
     on:
         branch: main
